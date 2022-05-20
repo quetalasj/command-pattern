@@ -4,11 +4,18 @@
 
 class Light {
 public:
-    std::string state;
-    void virtual on() = 0;
+    std::string name;
+    Light(const std::string& name);
+    void on();
+    void off();
 };
 
-class LivingRoomLight: public Light {
+class Stereo {
 public:
-    void on() override;
+    std::string name;
+    Stereo(const std::string& name);
+    void on();
+    void off();
+    void setCD();
+    void setVolume(const int& level);
 };
