@@ -20,6 +20,7 @@ RemoteControl::RemoteControl() {
         onCommands.push_back(onCmd);
         offCommands.push_back(std::make_shared<NoCommand>());
     }
+    this->undoCommand = std::make_shared<NoCommand>();
 }
 
 void RemoteControl::setCommand(int slot, const std::shared_ptr<Command> onCommand,
@@ -30,10 +31,16 @@ void RemoteControl::setCommand(int slot, const std::shared_ptr<Command> onComman
 
 void RemoteControl::onButtonWasPushed(int slot) {
     onCommands[slot]->execute();
+    this->undoCommand = onCommands[slot];
 }
 
 void RemoteControl::offButtonWasPushed(int slot) {
     offCommands[slot]->execute();
+    this->undoCommand = offCommands[slot];
+}
+
+void RemoteControl::undoButtonWasPushed() {
+    undoCommand->undo();
 }
 
 std::string RemoteControl::toString() {
@@ -42,6 +49,7 @@ std::string RemoteControl::toString() {
     for (int i=0; i < onCommands.size(); i++) {
         stringBuff << "[slot " << i << " ]" << onCommands[i]->getName() << "         " << offCommands[i]->getName() << std::endl;
     }
+    stringBuff << "[undo] " << undoCommand->getName() << std::endl;
     return stringBuff.str();
 }
 

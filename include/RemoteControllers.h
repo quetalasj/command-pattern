@@ -18,6 +18,7 @@ class RemoteControl {
 public:
     std::vector<std::shared_ptr<Command>> onCommands;
     std::vector<std::shared_ptr<Command>> offCommands;
+    std::shared_ptr<Command> undoCommand;
 
     RemoteControl();
 
@@ -26,6 +27,8 @@ public:
     void onButtonWasPushed(int slot);
 
     void offButtonWasPushed(int slot);
+
+    void undoButtonWasPushed();
 
     std::string toString();
 };

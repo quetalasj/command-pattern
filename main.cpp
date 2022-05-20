@@ -40,11 +40,21 @@ public:
 
         remoteControl.onButtonWasPushed(0);
         remoteControl.offButtonWasPushed(0);
+        std::cout << remoteControl.toString() << std::endl;
+        remoteControl.undoButtonWasPushed();
+        remoteControl.offButtonWasPushed(0);
+        remoteControl.onButtonWasPushed(0);
+        std::cout << remoteControl.toString() << std::endl;
+
         remoteControl.onButtonWasPushed(1);
         remoteControl.offButtonWasPushed(1);
 
+        std::cout << remoteControl.toString() << std::endl;
+
         remoteControl.onButtonWasPushed(2);
         remoteControl.offButtonWasPushed(2);
+        remoteControl.undoButtonWasPushed();
+        std::cout << remoteControl.toString() << std::endl;
     }
 };
 

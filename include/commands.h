@@ -7,6 +7,7 @@ class Command {
 public:
     std::string name = "default";
     void virtual execute() = 0;
+    void virtual undo() = 0;
     std::string virtual getName() = 0;
 };
 
@@ -16,6 +17,7 @@ public:
     std::shared_ptr<Light> light;
     LightOnCommand(std::shared_ptr<Light> light);
     void execute() override;
+    void undo() override;
     std::string getName() override;
 };
 
@@ -23,6 +25,7 @@ class NoCommand: public Command {
 public:
     std::string name = "NoCommand";
     void execute() override;
+    void undo() override;
     std::string getName() override;
 };
 
@@ -32,6 +35,7 @@ public:
     std::shared_ptr<Light> light;
     LightOffCommand(std::shared_ptr<Light> light);
     void execute() override;
+    void undo() override;
     std::string getName() override;
 };
 
@@ -41,6 +45,7 @@ public:
     std::shared_ptr<Stereo> stereo;
     StereoOnWithCDCommand(std::shared_ptr<Stereo> stereo);
     void execute() override;
+    void undo() override;
     std::string getName() override;
 };
 
@@ -50,5 +55,6 @@ public:
     std::shared_ptr<Stereo> stereo;
     StereoOffWithCDCommand(std::shared_ptr<Stereo> stereo);
     void execute() override;
+    void undo() override;
     std::string getName() override;
 };
