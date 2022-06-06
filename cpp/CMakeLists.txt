@@ -7,6 +7,7 @@ include_directories(commands controllers recievers)
 
 set(SOURCES
         main.cpp
+        commands/MacroCommand.cpp
         commands/commands.cpp
         commands/ceilingFanCommands.cpp
         recievers/recievers.cpp

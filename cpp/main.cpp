@@ -4,7 +4,7 @@
 #include "RemoteControllers.h"
 #include "ceilingFanCommands.h"
 #include "CeilingFan.h"
-
+#include "MacroCommand.h"
 
 class RemoteControlTest {
 public:
@@ -92,10 +92,50 @@ public:
     }
 };
 
+class RemoteLoaderMacro {
+public:
+    static void main() {
+        std::cout << "===========================================" << std::endl;
+        RemoteControl remoteControl = RemoteControl();
+        Light livingRoomLight = Light("Living Room");
+        Stereo stereo = Stereo("Living Room");
+        std::shared_ptr<CeilingFan> ceilingFan = std::make_shared<CeilingFan>("Living Room");
+
+        std::shared_ptr<LightOnCommand> LightOn = std::make_shared<LightOnCommand>(std::make_shared<Light>(livingRoomLight));
+        std::shared_ptr<LightOffCommand> LightOff = std::make_shared<LightOffCommand>(std::make_shared<Light>(livingRoomLight));
+
+        std::shared_ptr<StereoOnWithCDCommand> stereoOn = std::make_shared<StereoOnWithCDCommand>(std::make_shared<Stereo>(stereo));
+        std::shared_ptr<StereoOffWithCDCommand> stereoOff = std::make_shared<StereoOffWithCDCommand>(std::make_shared<Stereo>(stereo));
+
+        std::shared_ptr<CeilingFanHighCommand> ceilingFanHigh = std::make_shared<CeilingFanHighCommand>(ceilingFan);
+        std::shared_ptr<CeilingFanOffCommand> ceilingFanOff = std::make_shared<CeilingFanOffCommand>(ceilingFan);
+
+        std::vector<std::shared_ptr<Command>> partyOn = {LightOn, stereoOn, ceilingFanHigh};
+        std::vector<std::shared_ptr<Command>> partyOff = {LightOff, stereoOff, ceilingFanOff};
+
+        std::shared_ptr<MacroCommand> partyOnMacro = std::make_shared<MacroCommand>(partyOn);
+        std::shared_ptr<MacroCommand> partyOffMacro = std::make_shared<MacroCommand>(partyOff);
+
+        remoteControl.setCommand(0, partyOnMacro, partyOffMacro);
+
+        std::cout << remoteControl.toString() << std::endl;
+
+        std::cout << "Pushed Macro On "<< std::endl << std::endl;
+        remoteControl.onButtonWasPushed(0);
+        std::cout << std::endl << std::endl;
+
+
+        std::cout << "Pushed Macro Off "<< std::endl << std::endl;
+        remoteControl.offButtonWasPushed(0);
+
+    }
+};
+
 using namespace std;
 int main() {
 //    RemoteControlTest::main();
     RemoteLoader::main();
     RemoteLoader2::main();
+    RemoteLoaderMacro::main();
     return 0;
 }
